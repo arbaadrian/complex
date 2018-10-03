@@ -3,7 +3,7 @@ const keys = require('./keys');
 // Express App Setup
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('const');
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
@@ -65,5 +65,5 @@ app.post('/values', async (req, res) => {
 });
 
 app.listen(5000, err => {
-    consle.log('Listening');
+    console.log('Listening');
 });
