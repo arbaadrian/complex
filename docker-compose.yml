@@ -1,11 +1,18 @@
 ---
 
 version: '3'
-service:
+services:
   postgres:
     image: 'postgres:latest'
   redis:
     image: 'redis:latest'
+  nginx:
+    restart: always                       # will be running, no matter what
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3050:80'
   api:
     build:
       dockerfile: Dockerfile.dev
@@ -14,14 +21,14 @@ service:
       - /app/node_modules
       - ./server:/app
     environment:
-      - REDIS_HOST=redis # assign an environment variable with a specific value
+      - REDIS_HOST=redis                  # assign an environment variable with a specific value
       - REDIS_PORT=6379
       - PGHOST=postgres
       - PGPORT=5432
       - PGDATABASE=postgres
       - PGUSER=postgres
       - PGPASSWORD=postgres_password
-      # - TEST_ENV # without a value, it uses an already set up variable from my system
+    # - TEST_ENV                          # without a value, it uses an already set up variable from my system
   worker:
     build:
       dockerfile: Dockerfile.dev
